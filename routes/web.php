@@ -35,6 +35,20 @@ Route::middleware([
     Route::get('/dashboard', function () {
         return view('dashboard');
     })->name('dashboard');
+
+    Route::get('/asset/all',[AssetController::class,'assetAll'])->name('assetAll');//รวมAsset
+    Route::get('/asset/edit/{id}',[AssetController::class,'edit'])->name('assetEdit'); //ฟอร์มแก้ไข
+    Route::post('/asset/update/{id}',[AssetController::class,'update'])->name('assetUpdate');
+    Route::get('/asset/insert',[InsertController::class,'insert'])->name('assetInsert'); //หน้าinsert
+    Route::post('/asset/store',[InsertController::class,'store'])->name('assetStore'); //หน้าadd
+    Route::get('/asset/delete/{id}',[AssetController::class,'delete'])->name('assetDelete');
+    Route::get('/asset/examine',[ExamineAssetController::class,'examines'])->name('assetExamine');
+    Route::post('/assets/inspection', [ExamineAssetController::class, 'storeInspection'])->name('assetInspection.store');
+    Route::get('/asset/repair',[ShowAssetController::class,'showAsset'])->name('assetshow');
+    Route::get('/request',[BorrowRequestController::class,'index']);
+    Route::get('/request',[BorrowRequestController::class,'create']);
+    Route::post('/request/add',[BorrowRequestController::class,'store'])->name('request');
+    Route::get('/repair',[RepairController::class,'repair'])->name('assetRepair');
 });
 
 // Route::get('/asset/management',[assetController::class,'index'])->name('assetManagement');
@@ -44,16 +58,3 @@ Route::middleware([
 //     return view('approver.asset.index',compact('assets'));
 // })->name('assetAll');
 
-Route::get('/asset/all',[AssetController::class,'assetAll'])->name('assetAll');//รวมAsset
-Route::get('/asset/edit/{id}',[AssetController::class,'edit'])->name('assetEdit'); //ฟอร์มแก้ไข
-Route::post('/asset/update/{id}',[AssetController::class,'update'])->name('assetUpdate');
-Route::get('/asset/insert',[InsertController::class,'insert'])->name('assetInsert'); //หน้าinsert
-Route::post('/asset/store',[InsertController::class,'store'])->name('assetStore'); //หน้าadd
-Route::get('/asset/delete/{id}',[AssetController::class,'delete'])->name('assetDelete');
-Route::get('/asset/examine',[ExamineAssetController::class,'examines'])->name('assetExamine');
-Route::post('/assets/inspection', [ExamineAssetController::class, 'storeInspection'])->name('assetInspection.store');
-Route::get('/asset/repair',[ShowAssetController::class,'showAsset'])->name('assetshow');
-Route::get('/request',[BorrowRequestController::class,'index']);
-Route::get('/request',[BorrowRequestController::class,'create']);
-Route::post('/request/add',[BorrowRequestController::class,'store'])->name('request');
-Route::get('/repair',[RepairController::class,'repair'])->name('assetRepair');

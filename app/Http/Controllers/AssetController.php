@@ -13,8 +13,8 @@ class AssetController extends Controller
 {
 
     public function assetAll() {
-        // $assets=Asset::paginate(10);
-        $assets=Asset::all();
+
+        $assets = Asset::all();
         $borrow_requests = BorrowRequest::all();
         return view('approver.asset.index',compact('assets','borrow_requests'));
     }
@@ -78,7 +78,7 @@ class AssetController extends Controller
        //ดึงนามสกุลไฟล์ภาพ
        $img_ext = strtolower($asset_image->getClientOriginalExtension());
        $img_name = $name_gen.'.'.$img_ext;
-    
+
        //อัพโหลดและอัพเดตข้อมูล
        $upload_location = 'image/asset/';
        $full_path = $upload_location.$img_name;
@@ -103,7 +103,7 @@ class AssetController extends Controller
        unlink($old_image);
        $asset_image->move($upload_location,$img_name);
 
-       return redirect()->route('assetAll')->with('success',"อัพเดตข้อมูลเรียบร้อย"); 
+       return redirect()->route('assetAll')->with('success',"อัพเดตข้อมูลเรียบร้อย");
 
        }else{
         //อัพเดตชื่ออย่างเดียว
@@ -121,7 +121,7 @@ class AssetController extends Controller
                 'asset_status'=>$request->asset_status,
             ]);
 
-        return redirect()->route('assetAll')->with('success',"อัพเดตข้อมูลเรียบร้อย"); 
+        return redirect()->route('assetAll')->with('success',"อัพเดตข้อมูลเรียบร้อย");
        }
     }
 
@@ -132,7 +132,7 @@ class AssetController extends Controller
 
         //ลบข้อมูลจากฐานข้อมูล
         $delete=Asset::find($id)->delete();
-        return redirect()->route('assetAll')->with('success',"ลบข้อมูลเรียบร้อย"); 
+        return redirect()->route('assetAll')->with('success',"ลบข้อมูลเรียบร้อย");
     }
 
 }

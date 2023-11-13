@@ -14,17 +14,10 @@
                 @endif
                 <div class="row justify-content-end">
                     <div class="col-12">
-                        <div class="row align-items-end">
-                            <div class="col-6">
-                                <a href="{{ url('/asset/insert') }}" class="btn btn-primary btn-lg float-right" style="height: 50px;">
-                                    <i class="fas fa-plus mt-1"></i>  เพิ่มทรัพย์สิน
-                                </a>
-                            </div>
-                            <div class="col-3">
-                                <a href="{{ url('/repair') }}" class="btn btn-primary btn-lg float-right" style="height: 50px;">
-                                    <i class="fas fa-plus mt-1"></i>  ส่งซ่อมทรัพย์สิน
-                                </a>
-                            </div>
+                        <div class="align-items-end">
+                          <a href="{{ url('/asset/insert') }}" class="btn btn-primary btn-lg float-right">
+                            <i class="fas fa-plus mt-1"></i>  เพิ่มทรัพย์สิน
+                          </a>
                         </div>
                     </div>
                 </div>
@@ -50,19 +43,21 @@
                         </thead>
                         <tbody>
                             @foreach($assets as $row)
-                            <tr class="text-center">
+                            <tr class="text-center details-btn" data-target="#detailsModal{{$row->id}}">
                                 <td>{{ $loop->iteration }}</td>
-                                <td>{{$row->asset_code}}</td>
-                                <td>{{$row->asset_name}}</td>
-                                <td>{{$row->asset_type}}</td>
-                                <td>{{$row->asset_status}}</td>
+                                <td>{{ $row->asset_code }}</td>
+                                <td>{{ $row->asset_name }}</td>
+                                <td>{{ $row->asset_type }}</td>
+                                <td>{{ $row->asset_status }}</td>
                                 <td>
-                                    <button type="button" class="btn btn-secondary details-btn" data-target="#detailsModal{{$row->id}}">
+                                    <button type="button" class="btn btn-info details-btn" data-target="#detailsModal{{$row->id}}">
                                         <i class="far fa-eye"></i>
                                     </button>
-                                    <button type="button" class="btn btn-secondary details-btn" data-target="#detailsModal{{$row->id}}">
+                                    @if($row->asset_status === 'ชำรุด')
+                                    <button type="button" class="btn btn-secondary" data-target="#detailsModal{{$row->id}}">
                                         <i class="fa-solid fa-hammer"></i>
                                     </button>
+                                    @endif
                                     <a href="{{url('/asset/edit/'.$row->id)}}" class="btn btn-warning">
                                         <i class="fas fa-edit"></i>
                                     </a>
@@ -95,7 +90,7 @@
                                                         ชื่อ: {{$row->asset_name}}
                                                     </div>
                                                 </div>
-                                                
+
                                                 <!-- Asset Type and Price -->
                                                 <div class="row mb-4 ml-4 px-4">
                                                     <div class="col-md-6">
@@ -134,7 +129,7 @@
                                                         สถานะ: {{$row->asset_status}}
                                                     </div>
                                                     <div class="col-md-6">
-                                                        ผู้ถือครอง: 
+                                                        ผู้ถือครอง:
                                                         @foreach($borrow_requests as $request)
                                                             @if($request->asset == $row->id)
                                                                 {{ $request->user->name }}
