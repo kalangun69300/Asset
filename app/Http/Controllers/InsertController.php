@@ -3,11 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 use App\Models\Asset;
 use Carbon\Carbon;
-// use Illuminate\Support\Facades\Auth;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class InsertController extends Controller
 {
@@ -70,7 +70,7 @@ class InsertController extends Controller
        //ดึงนามสกุลไฟล์ภาพ
        $img_ext = strtolower($asset_image->getClientOriginalExtension());
        $img_name = $name_gen.'.'.$img_ext;
-    
+
        //บันทึกข้อมูลภาพ
        $upload_location = 'image/asset/';
        $full_path = $upload_location.$img_name;
@@ -88,7 +88,8 @@ class InsertController extends Controller
             'cancel_date'=>$request->cancel_date,
             'asset_status'=>$request->asset_status,
             'asset_image'=>$full_path,
-            'created_at'=>Carbon::now()
+            'created_at'=>Carbon::now(),
+            'user_id' => Auth::id()
        ]);
        $asset_image->move($upload_location,$img_name);
 

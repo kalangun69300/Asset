@@ -43,7 +43,7 @@
                         </thead>
                         <tbody>
                             @foreach($assets as $row)
-                            <tr class="text-center details-btn" data-target="#detailsModal{{$row->id}}">
+                            <tr class="text-center">
                                 <td>{{ $loop->iteration }}</td>
                                 <td>{{ $row->asset_code }}</td>
                                 <td>{{ $row->asset_name }}</td>
@@ -53,11 +53,6 @@
                                     <button type="button" class="btn btn-info details-btn" data-target="#detailsModal{{$row->id}}">
                                         <i class="far fa-eye"></i>
                                     </button>
-                                    @if($row->asset_status === 'ชำรุด')
-                                    <button type="button" class="btn btn-secondary" data-target="#detailsModal{{$row->id}}">
-                                        <i class="fa-solid fa-hammer"></i>
-                                    </button>
-                                    @endif
                                     <a href="{{url('/asset/edit/'.$row->id)}}" class="btn btn-warning">
                                         <i class="fas fa-edit"></i>
                                     </a>

@@ -27,6 +27,7 @@ return new class extends Migration
             $table->string('asset_image');
             $table->boolean('asset_pass')->default(false); // เก็บข้อมูลจาก checkbox
             $table->string('asset_problem')->nullable(); // เก็บข้อมูลจาก textbox
+            $table->string('user_id');
             $table->timestamps();
             $table->softDeletes();
         });
