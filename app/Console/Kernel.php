@@ -12,7 +12,12 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule): void
     {
-        // $schedule->command('inspire')->hourly();
+      /**
+       * [ * * * * * ]
+       * [ min hour date month day]
+       */
+      $schedule->command('cron:reset-approve-assets')->cron('1 * * * *');
+      // $schedule->command('cron:reset-approve-assets')->cron('* * 1 2 *');
     }
 
     /**

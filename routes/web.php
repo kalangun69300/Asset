@@ -1,14 +1,15 @@
 <?php
 
-use App\Http\Controllers\ExamineAssetController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\DB;
-use App\Http\Controllers\InsertController;
 use App\Http\Controllers\AssetController;
-use App\Http\Controllers\showAssetController;
-use App\Models\Asset;
 use App\Http\Controllers\BorrowRequestController;
+use App\Http\Controllers\ExamineAssetController;
+use App\Http\Controllers\InsertController;
 use App\Http\Controllers\RepairController;
+use App\Http\Controllers\showAssetController;
+use App\Http\Controllers\DashboardController;
+use App\Models\Asset;
 use App\Models\BorrowRequest;
 
 
@@ -32,9 +33,7 @@ Route::middleware([
     config('jetstream.auth_session'),
     'verified',
 ])->group(function () {
-    Route::get('/dashboard', function () {
-        return view('dashboard');
-    })->name('dashboard');
+    Route::get('/dashboard',[DashboardController::class,'index'])->name('dashboard');
 
     Route::get('/asset/all',[AssetController::class,'assetAll'])->name('assetAll');//รวมAsset
     Route::get('/asset/edit/{id}',[AssetController::class,'edit'])->name('assetEdit'); //ฟอร์มแก้ไข

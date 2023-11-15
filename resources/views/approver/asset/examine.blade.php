@@ -31,7 +31,7 @@
                     }
                 </style>
                 <div class="row">
-                <form action="{{ route('assetInspection.store') }}" method="POST">
+                  <form action="{{ route('assetInspection.store') }}" method="POST">
                     @csrf
                     <table id="myTable" class="table table-striped table-hover">
                         <thead class="table-primary">
@@ -57,23 +57,28 @@
                                     <input type="text" class="form-control border-dark" id="textbox{{$row->id}}" placeholder="--ระบุปัญหา--" name="asset_problem[{{$row->id}}]">
                                 </td>
                                 <td>รอการตรวจสอบ</td>
-                                
+
                                 <style>
                                     input::placeholder {
                                         text-align: center; /* การจัดให้อยู่ตรงกลาง */
                                     }
                                 </style>
-                            </tr> 
+                            </tr>
                         @endforeach
                         </tbody>
                     </table>
-                        <div class="row mt-4">
-                                <input type="submit" value="บันทึกการตรวจสอบ" class="btn btn-primary  ml-2">
-                        </div>
-                    </form>
-                    <script>
-                        new DataTable('#myTable');
-                    </script>
+                  </form>
+                  <script>
+                      new DataTable('#myTable');
+                  </script>
+                </div>
+                <div class="row mt-3">
+                  <div class="col-12">
+                    <div class="d-flex flex-nowrap float-right grid gap-1">
+                      <a class="order-1 p-2 btn btn-secondary"><i class="fas fa-save"></i> บันทึกแบบร่าง</a>
+                      <a class="order-2 p-2 btn btn-primary"><i class="fas fa-save"></i> บันทึก</a>
+                    </div>
+                  </div>
                 </div>
             </div>
         </div>
