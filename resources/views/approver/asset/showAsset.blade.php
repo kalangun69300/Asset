@@ -125,10 +125,6 @@
             let asset_type = select_asset_type.val()
             let search = input_search.val()
 
-            if(search){
-              page = 1
-            }
-
             let url = path_url + '?'
                       + (page !== null ? 'page=' + page + '&' : "")
                       + (page_size !== null ? 'page_size=' + page_size + '&' : "")
