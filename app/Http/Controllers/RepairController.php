@@ -12,19 +12,35 @@ use Illuminate\Support\Facades\DB;
 
 class RepairController extends Controller
 {
-    public function repair()
+    public function repair(Request $request)
     {
 
-      $data = DB::table('asset_repairs')
+      $count_waiting = AssetRepair::where('status', 'รอดำเนินการ')->count();
+      $count_success = AssetRepair::where('status', 'ดำเนินการสำเร็จ')->count();
+      $count_all = AssetRepair::count();
+
+      $query = DB::table('asset_repairs')
               ->join('assets', 'assets.id', '=', 'asset_repairs.asset_id')
               ->join('users', 'users.id', '=', 'asset_repairs.user_id')
-              ->select('asset_repairs.*', 'users.name', 'assets.asset_name')->get();
+              ->select('asset_repairs.*', 'users.name', 'assets.asset_name');
 
-      return view('approver.asset.repair', compact('data'));
+      $option_status = $request->status;
+      if($request->status){
+        if($request->status == 'waiting'){
+          $query = $query->where('asset_repairs.status', 'รอดำเนินการ');
+
+        }else if($request->status == 'success'){
+          $query = $query->where('asset_repairs.status', 'ดำเนินการเสร็จสิ้น');
+        }
+      }
+
+      $data = $query->get();
+
+      return view('approver.asset.repair', compact('data', 'count_waiting', 'count_success', 'count_all', 'option_status'));
     }
 
     public function insert(){
-      $data = Asset::where('asset_status', '!=', 'ส่งซ่อม')->get();
+      $data = Asset::where('asset_status', '=', 'ชำรุด')->get();
       return view('approver.asset.repair-insert', compact('data'));
     }
 
@@ -57,13 +73,12 @@ class RepairController extends Controller
         ]);
 
         $asset = Asset::find($request->asset);
-        $asset->asset_status = 'ชำรุด';
+        $asset->asset_status = 'ส่งซ่อม';
         $asset->save();
 
         return redirect()->route('assetRepair')->with('success', 'เพิ่มข้อมูลเรียบร้อยแล้ว');
       } catch (\Throwable $th) {
         throw $th;
-        dd($th);
       }
 
     }

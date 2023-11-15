@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('asset_id');
             $table->string('user_id');
-            $table->string('status')->default('ส่งซ่อม');
+            $table->string('status')->default('รอดำเนินการ');
             $table->string('store_name')->nullable();
             $table->text('remark')->nullable();
             $table->date('repair_date')->nullable();
