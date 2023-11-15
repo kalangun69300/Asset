@@ -25,7 +25,7 @@
                 </select>
               </div>
               <div class="col-md-6">
-                <input type="text" id="search" name="search" class="form-control border-2 rounded-pill" placeholder="Search...">
+                <input type="text" id="search" name="search" class="form-control border-2 rounded-pill" placeholder="Search..." value="{{ $search_option['search'] }}">
               </div>
             </div>
 
@@ -82,23 +82,24 @@
     </div>
 
     <script>
-        document.getElementById('search').addEventListener('input', function() {
-            let input = this.value.toLowerCase();
-            let assets = document.getElementsByClassName('border-1');
+        // document.getElementById('search').addEventListener('input', function() {
+        //     let input = this.value.toLowerCase();
+        //     let assets = document.getElementsByClassName('border-1');
 
-            Array.from(assets).forEach(asset => {
-                let text = asset.innerText.toLowerCase();
-                if (text.includes(input)) {
-                    asset.style.display = "block";
-                } else {
-                    asset.style.display = "none";
-                }
-            });
-        });
+        //     Array.from(assets).forEach(asset => {
+        //         let text = asset.innerText.toLowerCase();
+        //         if (text.includes(input)) {
+        //             asset.style.display = "block";
+        //         } else {
+        //             asset.style.display = "none";
+        //         }
+        //     });
+        // });
 
         $( document ).ready(function() {
           let select_page_size = $('#page_size')
           let select_asset_type = $('#asset_type')
+          let input_search = $('input[name=search]')
 
           select_page_size.change(function(){
             getData()
@@ -110,6 +111,11 @@
 
           })
 
+          input_search.change(function(){
+            getData()
+
+          })
+
 
           function getData(){
             let searchParams = new URLSearchParams(window.location.search)
@@ -117,11 +123,13 @@
             let page = searchParams.get('page')
             let page_size = select_page_size.val()
             let asset_type = select_asset_type.val()
+            let search = input_search.val()
 
             let url = path_url + '?'
                       + (page !== null ? 'page=' + page + '&' : "")
                       + (page_size !== null ? 'page_size=' + page_size + '&' : "")
-                      + (asset_type !== null ? 'asset_type=' + asset_type : "")
+                      + (asset_type !== null ? 'asset_type=' + asset_type + '&' : "")
+                      + (search !== null ? 'search=' + search : "")
 
             location.replace(url)
           }

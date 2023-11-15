@@ -14,6 +14,7 @@ class ShowAssetController extends Controller
       $page_size = $request->page_size ? (int)$request->page_size : 12;
 
       $asset_type = $request->asset_type;
+      $search = $request->search;
 
       $query = Asset::where('asset_type', '!=', 'ของส่วนกลาง');
 
@@ -21,11 +22,16 @@ class ShowAssetController extends Controller
         $query = $query->where('asset_status', '=', 'ว่าง');
       }
 
+      if($search){
+        $query = $query->where('asset_name', 'LIKE', '%'.$search.'%');
+      }
+
       $assets = $query->paginate($page_size)->withQueryString();
 
       $search_option = [
         'page_size' => $page_size,
-        'asset_type' => $asset_type
+        'asset_type' => $asset_type,
+        'search' => $search
       ];
 
       return view('approver.asset.showAsset', compact('assets', 'search_option'));
