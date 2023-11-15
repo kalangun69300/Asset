@@ -51,6 +51,7 @@ Route::middleware([
     Route::get('/repair',[RepairController::class,'repair'])->name('assetRepair');
     Route::get('/repair/insert',[RepairController::class,'insert']);
     Route::post('/repair/store',[RepairController::class,'store'])->name('repairStore');
+    Route::post('/repair/update',[RepairController::class,'update'])->name('repairUpdate');
 
 
 });

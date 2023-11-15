@@ -8,8 +8,9 @@
 
       <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg p-4">
         @if(session('success'))
-          <div class="alert alert-success">
+          <div class="alert alert-success alert-dismissible">
             {{ session('success') }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
           </div>
         @endif
 
@@ -80,23 +81,56 @@
                   <td>{{ $d->name }}</td>
                   <td>{{ $d->remark }}</td>
                   <td>
-                    <button type="button" class="btn btn-info update-btn">
-                      <i class="far fa-edit"></i>
-                    </button>
+                    @if($d->status !== 'ดำเนินการเสร็จสิ้น')
+                      <button type="button" class="btn btn-info update-btn" data-id="{{ $d->id }}" data-asset="{{ $d->asset_id }}">
+                        <i class="far fa-edit"></i>
+                      </button>
+                    @endif
                   </td>
                 </tr>
               @endforeach
             </tbody>
           </table>
         </div>
-
-
       </div>
     </div>
   </div> <!-- ความห่างจาก navbar ด้านบน -->
    <!-- อยู่ในกรอบตรงกับ logo -->
 
-  <!-- ฟอร์มกรอกรายละเอียด-->
+    <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="staticBackdropLabel">ปรับสถานะ</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <form action="{{ route('repairUpdate') }}" method="POST">
+            @csrf
+            <input type="hidden" name="id">
+            <input type="hidden" name="asset_id">
+            <div class="modal-body">
+              <div class="mb-3">
+                <label for="status" class="form-label">สถานะทรัพย์สิน</label>
+                <select class="form-control" name="asset_status" id="asset_status" required>
+                    <option value="">กรุณาเลือกสถานะ</option>
+                    <option value="ว่าง">ว่าง</option>
+                    <option value="ไม่ว่าง">ไม่ว่าง</option>
+                    <option value="ไม่ว่าง">รอดำเนินการ</option>
+                    <option value="ชำรุด">ชำรุด</option>
+                    <option value="ยกเลิกการใช้งาน">ยกเลิกการใช้งาน</option>
+                </select>
+              </div>
+            </div>
+            <div class="modal-footer">
+              <button type="submit" class="btn btn-primary">บันทึก</button>
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">ปิด</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+
+
 
 
   <script>
@@ -113,6 +147,15 @@
                   + (status !== null ? 'status=' + status : "")
 
         location.replace(url)
+      })
+
+      $('.update-btn').each(function(){
+        $(this).click(function(){
+          $('input[name=id]').val($(this).data('id'))
+          $('input[name=asset_id]').val($(this).data('asset'))
+
+          $('#staticBackdrop').modal('show')
+        })
       })
     })
   </script>

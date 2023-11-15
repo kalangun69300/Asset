@@ -16,7 +16,7 @@ class RepairController extends Controller
     {
 
       $count_waiting = AssetRepair::where('status', 'รอดำเนินการ')->count();
-      $count_success = AssetRepair::where('status', 'ดำเนินการสำเร็จ')->count();
+      $count_success = AssetRepair::where('status', 'ดำเนินการเสร็จสิ้น')->count();
       $count_all = AssetRepair::count();
 
       $query = DB::table('asset_repairs')
@@ -81,6 +81,23 @@ class RepairController extends Controller
         throw $th;
       }
 
+    }
+
+    public function update(Request $request){
+      try {
+
+        $asset_repair = AssetRepair::find($request->id);
+        $asset_repair->status = 'ดำเนินการเสร็จสิ้น';
+        $asset_repair->save();
+
+        $asset = Asset::find($request->asset_id);
+        $asset->asset_status = $request->asset_status;
+        $asset->save();
+
+        return redirect()->route('assetRepair')->with('success', 'บันทึกข้อมูลเรียบร้อยแล้ว');
+      } catch (\Throwable $th) {
+        throw $th;
+      }
     }
 
 
