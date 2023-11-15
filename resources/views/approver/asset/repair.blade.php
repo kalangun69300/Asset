@@ -3,68 +3,70 @@
     <h2 class="font-semibold text-xl text-gray-800 leading-tight">ส่งซ่อมอุปกรณ์</h2>
   </x-slot>
 
-  <div class="py-12"> <!-- ความห่างจาก navbar ด้านบน -->
-  <div class="container mx-auto px-6 lg:px-8" > <!-- อยู่ในกรอบตรงกับ logo -->
-  
+  <div class="py-12">
+    <div class="container mx-auto px-6 lg:px-8">
+
+
+      <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg p-4">
+        @if(session('success'))
+            <div class="alert alert-success">
+                {{ session('success') }}
+            </div>
+        @endif
+
+        <div class="row justify-content-end">
+            <div class="col-12">
+                <div class="align-items-end">
+                  <a href="{{ url('/repair/insert') }}" class="btn btn-primary btn-lg float-right">
+                    <i class="fas fa-plus mt-1"></i>  เพิ่มข้อมูลการส่งซ่อมอุปกรณ์
+                  </a>
+                </div>
+            </div>
+        </div>
+        <div class="row mt-3">
+          <table id="myTable" class="table table-striped table-hover">
+            <thead class="table-primary">
+                <tr class="text-center">
+                  <th scope="col">ลำดับ</th>
+                  <th scope="col">ทรัพย์สิน</th>
+                  <th scope="col">สถานะ</th>
+                  <th scope="col">วันที่ส่งซ่อม</th>
+                  <th scope="col">ผู้ส่งซ่อม</th>
+                  <th scope="col">หมายเหตุ</th>
+                  <th scope="col">action</th>
+                </tr>
+            </thead>
+            <tbody>
+              @foreach($data as $d)
+                <tr class="text-center">
+                  <td>{{ $loop->iteration }}</td>
+                  <td>{{ $d->asset_name }}</td>
+                  <td>{{ $d->status }}</td>
+                  <td>{{ date("d/m/Y", strtotime($d->repair_date)) }}</td>
+                  <td>{{ $d->name }}</td>
+                  <td>{{ $d->remark }}</td>
+                  <td>
+                    <button type="button" class="btn btn-info update-btn">
+                      <i class="far fa-edit"></i>
+                    </button>
+                  </td>
+                </tr>
+              @endforeach
+            </tbody>
+          </table>
+        </div>
+
+
+      </div>
+    </div>
+  </div> <!-- ความห่างจาก navbar ด้านบน -->
+   <!-- อยู่ในกรอบตรงกับ logo -->
+
   <!-- ฟอร์มกรอกรายละเอียด-->
-  <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg p-4">
-    <div class="font-semibold text-l text-gray-800 mb-4">กรุณากรอกรายระเอียดการส่งซ่อมอุปกรณ์</div>
-      <form action="{{ route('assetRepair') }}" method="post">
-        @csrf
 
-        <div class="row">
-            <div class="col-md-6 mt-3" >
-            <label for="asset">ทรัพย์สินที่ส่งซ่อม</label>
-                    <select class="form-control" name="asset" id="asset">
-                        <option value="">กรุณาเลือกทรัพย์สินที่ส่งซ่อม</option>
-                        
-                    </select>
-                    @error('asset')
-                        <div class="text-danger">{{ $message }}</div>
-                    @enderror
-            </div>
 
-            <div class="col-md-6 mt-3" >
-            <label for="store">ร้านที่ส่งซ่อม</label>
-                 <input type="text" class="form-control" name="asset_store">
-                 @error('asset_store')
-                    <div class="text-danger">{{ $message }}</div>
-                @enderror
-            </div>
-        </div>
-        <br>
-        <div class="row ml-1">
-          <div class="col-md-6 my-2">
-            <label for="repair_date" class="form-label">วันที่ส่งซ่อม</label>
-            <input type="date" class="form-control" name="repair_date" >
-            @error('repair_date')
-                <div class="text-danger">{{ $message }}</div>
-            @enderror
-          </div>
-          
-          <div class="col-md-6 my-2">
-            <label for="pickup_date" class="form-label">กำหนดรับอุปกรณ์</label>
-            <input type="date" class="form-control" name="pickup_date">
-            @error('pickup_date')
-                <div class="text-danger">{{ $message }}</div>
-            @enderror
-          </div>
-          
-        </div>
-     
-
-        <div class="row mt-4 mb-4 justify-content-end">
-          <div class="col-md-1">
-            <input type="submit" value="บันทึก" class="btn btn-success mb-4">
-          </div>
-          <div class="col-md-1">
-            <a href="{{ route('dashboard') }}" class="btn btn-danger">ยกเลิก</a>
-          </div>
-        </div>
-      </form>
-      
-
-     
-  </div>
+  <script>
+    new DataTable('#myTable');
+  </script>
 </x-app-layout>
 

@@ -49,6 +49,10 @@ Route::middleware([
     Route::get('/request',[BorrowRequestController::class,'create']);
     Route::post('/request/add',[BorrowRequestController::class,'store'])->name('request');
     Route::get('/repair',[RepairController::class,'repair'])->name('assetRepair');
+    Route::get('/repair/insert',[RepairController::class,'insert']);
+    Route::post('/repair/store',[RepairController::class,'store'])->name('repairStore');
+
+
 });
 
 // Route::get('/asset/management',[assetController::class,'index'])->name('assetManagement');
