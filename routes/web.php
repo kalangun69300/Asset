@@ -41,12 +41,17 @@ Route::middleware([
     Route::get('/asset/insert',[InsertController::class,'insert'])->name('assetInsert'); //หน้าinsert
     Route::post('/asset/store',[InsertController::class,'store'])->name('assetStore'); //หน้าadd
     Route::get('/asset/delete/{id}',[AssetController::class,'delete'])->name('assetDelete');
-    Route::get('/asset/examine',[ExamineAssetController::class,'examines'])->name('assetExamine');
-    Route::post('/assets/inspection', [ExamineAssetController::class, 'storeInspection'])->name('assetInspection.store');
+
     Route::get('/asset/repair',[ShowAssetController::class,'showAsset'])->name('assetshow');
     Route::get('/request',[BorrowRequestController::class,'index']);
     Route::get('/request',[BorrowRequestController::class,'create']);
     Route::post('/request/add',[BorrowRequestController::class,'store'])->name('request');
+
+    // Examine
+    Route::get('/asset/examine',[ExamineAssetController::class,'index'])->name('assetExamine');
+    Route::post('/assets/examine/store', [ExamineAssetController::class, 'store'])->name('examineStore');
+
+    // Repair
     Route::get('/repair',[RepairController::class,'repair'])->name('assetRepair');
     Route::get('/repair/insert',[RepairController::class,'insert']);
     Route::post('/repair/store',[RepairController::class,'store'])->name('repairStore');

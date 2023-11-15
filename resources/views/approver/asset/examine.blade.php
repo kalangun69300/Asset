@@ -7,12 +7,14 @@
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="container">
+              <div class="row">
                 @if(session('success'))
-                <div class="alert alert-success">
+                  <div class="alert alert-success alert-dismissible">
                     {{ session('success') }}
-                </div>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                  </div>
                 @endif
-                <br>
+              </div>
                 <style>
                     /* สร้างพื้นหลังสีขาวคลุม DataTable, ช่องค้นหา และส่วนที่มี paginate */
                     .dataTables_wrapper {
@@ -29,9 +31,14 @@
                         border-radius: 8px; /* ขอบโค้ง */
                         padding: 8px; /* ขนาดของช่อง */
                     }
+
+                    input::placeholder {
+                      text-align: center; /* การจัดให้อยู่ตรงกลาง */
+                    }
                 </style>
-                <div class="row">
-                  <form action="{{ route('assetInspection.store') }}" method="POST">
+                <form action="{{ route('examineStore') }}" method="POST" id="examine-form">
+                  <input type="hidden" name="draft" value="N">
+                  <div class="row">
                     @csrf
                     <table id="myTable" class="table table-striped table-hover">
                         <thead class="table-primary">
@@ -45,42 +52,63 @@
                             </tr>
                         </thead>
                         <tbody>
-                        @foreach($assets as $row)
+                        @foreach($data as $row)
                             <tr class="text-center">
                                 <td>{{ $loop->iteration }}</td>
                                 <td>{{ $row->asset_code }}</td>
                                 <td>{{ $row->asset_name }}</td>
                                 <td>
-                                    <input type="checkbox" class="border-dark border-1" id="checkbox{{$row->id}}" name="asset_pass[{{$row->id}}]">
+                                  @php
+                                    $disable_checkbox = false;
+                                    $disable_text = false;
+                                    if($row->examine_status === 'COMPLETE'){
+                                      $disable_checkbox = true;
+                                      $disable_text = true;
+                                    }
+                                  @endphp
+                                  <input type="checkbox" class="border-dark border-1" name="asset_pass[{{ $row->id_asset }}]"@if($row->asset_pass) checked @endif @if($disable_checkbox) disabled @endif>
                                 </td>
                                 <td>
-                                    <input type="text" class="form-control border-dark" id="textbox{{$row->id}}" placeholder="--ระบุปัญหา--" name="asset_problem[{{$row->id}}]">
+                                    <input type="text" class="form-control border-dark" name="asset_problem[{{ $row->id_asset }}]" placeholder="--ระบุปัญหา--" @if($disable_text) disabled @endif value="{{ $row->asset_problem }}">
                                 </td>
-                                <td>รอการตรวจสอบ</td>
-
-                                <style>
-                                    input::placeholder {
-                                        text-align: center; /* การจัดให้อยู่ตรงกลาง */
-                                    }
-                                </style>
+                                <td>
+                                  @if($row->examine_status === 'COMPLETE')
+                                    ตรวจสอบเรียบร้อย
+                                  @else
+                                    รอการตรวจสอบ
+                                  @endif
+                                </td>
                             </tr>
                         @endforeach
                         </tbody>
                     </table>
-                  </form>
-                  <script>
-                      new DataTable('#myTable');
-                  </script>
-                </div>
-                <div class="row mt-3">
-                  <div class="col-12">
-                    <div class="d-flex flex-nowrap float-right grid gap-1">
-                      <a class="order-1 p-2 btn btn-secondary"><i class="fas fa-save"></i> บันทึกแบบร่าง</a>
-                      <a class="order-2 p-2 btn btn-primary"><i class="fas fa-save"></i> บันทึก</a>
+                  </div>
+                  <div class="row mt-3">
+                    <div class="col-12">
+                      <div class="d-flex flex-nowrap float-right grid gap-1">
+                        <button class="order-1 p-2 btn btn-secondary btn-save"><i class="fas fa-save"></i> บันทึกแบบร่าง</button>
+                        <button class="order-2 p-2 btn btn-primary btn-save-draft"><i class="fas fa-save"></i> บันทึก</button>
+                      </div>
                     </div>
                   </div>
-                </div>
+                </form>
             </div>
         </div>
     </div>
+    <script>
+       new DataTable('#myTable');
+
+      $( document ).ready(function() {
+
+        let form = $("#examine-form")
+        $('.btn-save').click(function(){
+          form.submit()
+        })
+
+        $('.btn-save').click(function(){
+          $('input[name=draft]').val('Y')
+          form.submit()
+        })
+      });
+    </script>
 </x-app-layout>
