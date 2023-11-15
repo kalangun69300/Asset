@@ -8,7 +8,34 @@
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg p-4">
-              <div class="row">
+              <div class="row row-cols-lg-auto g-3">
+                <div class="col-12">
+                  <select class="form-select" id="select_year">
+                    <option value="">เลือกปี</option>
+                    <option value="2023" @if(date('Y') === '2023') selected @endif>2023</option>
+                    <option value="2022" @if(date('Y') === '2022') selected @endif>2022</option>
+                    <option value="2021" @if(date('Y') === '2021') selected @endif>2021</option>
+                  </select>
+                </div>
+                <div class="col-12">
+                  <select class="form-select" id="select_month">
+                    <option value="">เลือกเดือน</option>
+                    <option value="01" @if(date('n') === '01') selected @endif>มกราคม</option>
+                    <option value="02" @if(date('n') === '02') selected @endif>กุมภาพันธ์</option>
+                    <option value="03" @if(date('n') === '03') selected @endif>มีนาคม</option>
+                    <option value="04" @if(date('n') === '04') selected @endif>เมษายน</option>
+                    <option value="05" @if(date('n') === '05') selected @endif>พฤษภาคม</option>
+                    <option value="06" @if(date('n') === '06') selected @endif>มิถุนายน</option>
+                    <option value="07" @if(date('n') === '07') selected @endif>กรกฎาคม</option>
+                    <option value="08" @if(date('n') === '08') selected @endif>สิงหาคม</option>
+                    <option value="09" @if(date('n') === '09') selected @endif>กันยายน</option>
+                    <option value="10" @if(date('n') === '10') selected @endif>ตุลาคม</option>
+                    <option value="11" @if(date('n') === '11') selected @endif>พฤศจิกายน</option>
+                    <option value="12" @if(date('n') === '12') selected @endif>ธันวาคม</option>
+                  </select>
+                </div>
+              </div>
+              <div class="row mt-3">
                 <div class="col-md-6">
                   <h4>ผลการตรวจทรัพย์สิน</h4>
                   <div class="chart">
@@ -25,6 +52,7 @@
               <hr>
               <div class="row">
                 <div class="col-md-12">
+                  <h4>สถานะทรัพย์สิน</h4>
                   <canvas id="pieChart" style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%;"></canvas>
                 </div>
               </div>
@@ -42,137 +70,130 @@
 
       $(function () {
 
-        var donutData = {
-          labels: [
-              'Chrome',
-              'IE',
-              'FireFox',
-              'Safari',
-              'Opera',
-              'Navigator',
-          ],
+        let select_year = $("#select_year")
+        let select_month = $("#select_month")
+
+        select_year.change(function(){
+          loadChartData()
+        })
+
+        select_month.change(function(){
+          loadChartData()
+        })
+
+        //-------------
+        //- PIE CHART -
+        //-------------
+
+        var pieData = {
+          labels: ['ว่าง', 'ไม่ว่าง', 'รอดำเนินการ', 'ชำรุด', 'ยกเลิกการใช้งาน'],
           datasets: [
             {
-              data: [700,500,400,600,300,100],
-              backgroundColor : ['#f56954', '#00a65a', '#f39c12', '#00c0ef', '#3c8dbc', '#d2d6de'],
+              data: [0,0,0,0,0],
+              backgroundColor : ['#7ad08a', '#92d8b5', '#9dcd2a', '#daa810', '#c45312'],
             }
           ]
         }
 
         var pieChartCanvas = $('#pieChart').get(0).getContext('2d')
-        var pieData        = donutData;
         var pieOptions     = {
           maintainAspectRatio : false,
           responsive : true,
           plugins: {
             legend: {
-              "position": 'bottom'
-            }
-          }
-        }
-        //Create pie or douhnut chart
-        // You can switch between pie and douhnut using the method below.
-        new Chart(pieChartCanvas, {
-          type: 'pie',
-          data: pieData,
-          options: {
-            maintainAspectRatio : false,
-            responsive : true,
-            legend: {
               position: 'bottom'
             }
           }
+        }
+        //Create chart
+        let pieChart = new Chart(pieChartCanvas, {
+          type: 'pie',
+          data: pieData,
+          options: pieOptions
         })
 
-        var areaChartData = {
-          labels  : ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
+        //-------------
+        //- BAR CHART 1-
+        //-------------
+        let barChartCanvas = $('#barChart').get(0).getContext('2d')
+        let barChartData = {
+          labels  : ['ผ่านการพิจารณา', 'ไม่ผ่านการพิจารณา'],
           datasets: [
             {
-              label               : 'Digital Goods',
-              backgroundColor     : 'rgba(60,141,188,0.9)',
-              borderColor         : 'rgba(60,141,188,0.8)',
-              pointRadius          : false,
-              pointColor          : '#3b8bba',
-              pointStrokeColor    : 'rgba(60,141,188,1)',
-              pointHighlightFill  : '#fff',
-              pointHighlightStroke: 'rgba(60,141,188,1)',
-              data                : [28, 48, 40, 19, 86, 27, 90]
-            },
-            {
-              label               : 'Electronics',
-              backgroundColor     : 'rgba(210, 214, 222, 1)',
-              borderColor         : 'rgba(210, 214, 222, 1)',
-              pointRadius         : false,
-              pointColor          : 'rgba(210, 214, 222, 1)',
-              pointStrokeColor    : '#c1c7d1',
-              pointHighlightFill  : '#fff',
-              pointHighlightStroke: 'rgba(220,220,220,1)',
-              data                : [65, 59, 80, 81, 56, 55, 40]
-            },
+              label: 'ผลการตรวจทรัพย์สิน',
+              backgroundColor     : ['rgba(0, 191, 125, 0.5)', 'rgba(255, 99, 132, 0.5)'],
+              borderColor         : ['rgba(0, 191, 125, 1)', 'rgba(255, 99, 132, 1)'],
+              data                : [0, 0]
+            }
           ]
         }
-
-        //-------------
-        //- BAR CHART -
-        //-------------
-        var barChartCanvas = $('#barChart').get(0).getContext('2d')
-        var barChartData = $.extend(true, {}, areaChartData)
-        var temp0 = areaChartData.datasets[0]
-        var temp1 = areaChartData.datasets[1]
-        barChartData.datasets[0] = temp1
-        barChartData.datasets[1] = temp0
-
-        var barChartOptions = {
-          responsive              : true,
-          maintainAspectRatio     : false,
-          datasetFill             : false,
+        let barChartOptions = {
+          responsive: true,
+          maintainAspectRatio: false,
+          datasetFill: false,
           legend: {
-            position: 'bottom'
+            display: false
+          },
+          scales: {
+            yAxes: [{
+              ticks: {
+                beginAtZero: true
+              }
+            }]
           }
         }
-
-        new Chart(barChartCanvas, {
+        let barChart = new Chart(barChartCanvas, {
           type: 'bar',
           data: barChartData,
           options: barChartOptions
         })
 
+        //-------------
+        //- BAR CHART 2-
+        //-------------
 
-        var barChartCanvas1 = $('#barChart1').get(0).getContext('2d')
-        var barChartData = $.extend(true, {}, areaChartData)
-        var temp0 = areaChartData.datasets[0]
-        var temp1 = areaChartData.datasets[1]
-        barChartData.datasets[0] = temp1
-        barChartData.datasets[1] = temp0
-
-        new Chart(barChartCanvas1, {
+        let barChartCanvas1 = $('#barChart1').get(0).getContext('2d')
+        let barChartData1 = {
+          labels: ['ของส่วนกลาง', 'เบิกใช้ส่วนตัว', 'เบิกใช้ชั่วคราว', 'ไม่ต้องคืน'],
+          datasets: [
+            {
+              label: 'ประเภททรัพย์สิน',
+              backgroundColor: ['rgba(5, 79, 185, 0.5)', 'rgba(4, 97, 207, 0.5)', 'rgba(0, 115, 230, 0.5)', 'rgba(139, 171, 241, 0.5)'],
+              borderColor: ['rgba(5, 79, 185, 1)', 'rgba(4, 97, 207, 1)', 'rgba(0, 115, 230, 1)', 'rgba(139, 171, 241, 1)'],
+              data: [10,20,30,40]
+            }
+          ]
+        }
+        let barChart1 = new Chart(barChartCanvas1, {
           type: 'bar',
-          data: barChartData,
+          data: barChartData1,
           options: barChartOptions
         })
+
+        loadChartData()
+
+        function loadChartData(){
+          $.ajax({
+            url: "/getDataChart",
+            method: "POST",
+            data: {
+              month: select_month.val(),
+              year: select_year.val()
+            }
+          }).done(function( res ) {
+            pieChart.data.datasets[0].data = res.pieData
+            pieChart.update()
+
+            barChart.data.datasets[0].data = res.barData
+            barChart.update()
+
+            barChart1.data.datasets[0].data = res.barData1
+            barChart1.update()
+
+          });
+        }
+
       })
-
-
-      function loadChartPie(){
-        $.ajax({
-          url: "/getDataChart",
-          method: "POST",
-          data: {
-            provinces: sel_provinces.val(),
-            districts: sel_districts.val()
-           }
-        }).done(function( res ) {
-
-          pieChart.data.datasets[0].data = res.pieData
-          pieChart.update()
-
-          barChart.data.datasets[0].data = res.barData.data_y
-          barChart.data.datasets[1].data = res.barData.data_n
-          barChart.data.labels = res.barData.label
-          barChart.update()
-
-        });
-      }
 
     </script>
 </x-app-layout>

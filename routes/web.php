@@ -33,7 +33,9 @@ Route::middleware([
     config('jetstream.auth_session'),
     'verified',
 ])->group(function () {
+    // Dashboard
     Route::get('/dashboard',[DashboardController::class,'index'])->name('dashboard');
+    Route::post('/getDataChart',[DashboardController::class,'getDataChart']);
 
     Route::get('/asset/all',[AssetController::class,'assetAll'])->name('assetAll');//รวมAsset
     Route::get('/asset/edit/{id}',[AssetController::class,'edit'])->name('assetEdit'); //ฟอร์มแก้ไข
