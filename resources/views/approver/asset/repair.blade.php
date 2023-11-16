@@ -26,7 +26,7 @@
           <div class="col-md-4">
             <div class="card">
               <div class="card-body text-center">
-                <h5 class="card-title fw-bold">รอดำเนินการ</h5>
+                <h5 class="card-title fw-bold">ส่งซ่อม</h5>
                 <p class="card-text fs-2">{{ number_format($count_waiting) }}</p>
               </div>
             </div>
@@ -46,7 +46,7 @@
           <div class="col-md-3">
             <select name="status" id="status" class="form-control">
               <option value="all" @if($option_status === 'all' || $option_status === '') selected @endif>รายการส่งซ่อมทั้งหมด</option>
-              <option value="waiting" @if($option_status === 'waiting') selected @endif>รอดำเนินการ</option>
+              <option value="waiting" @if($option_status === 'waiting') selected @endif>ส่งซ่อม</option>
               <option value="success" @if($option_status === 'success') selected @endif>ดำเนินการเสร็จสิ้น</option>
             </select>
           </div>
@@ -115,7 +115,7 @@
                     <option value="">กรุณาเลือกสถานะ</option>
                     <option value="ว่าง">ว่าง</option>
                     <option value="ไม่ว่าง">ไม่ว่าง</option>
-                    <option value="ไม่ว่าง">รอดำเนินการ</option>
+                    <option value="ส่งซ่อม">ส่งซ่อม</option>
                     <option value="ชำรุด">ชำรุด</option>
                     <option value="ยกเลิกการใช้งาน">ยกเลิกการใช้งาน</option>
                 </select>

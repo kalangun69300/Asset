@@ -55,7 +55,7 @@
                             </div>
                         </div>
                     </div>
-                    
+
                     <div class="row mb-4">
                         <div class="col-md-6">
                             <div class="form-group">
@@ -142,7 +142,7 @@
                                     <option value="">กรุณาเลือกสถานะ</option>
                                     <option value="ว่าง">ว่าง</option>
                                     <option value="ไม่ว่าง">ไม่ว่าง</option>
-                                    <option value="ไม่ว่าง">รอดำเนินการ</option>
+                                    <option value="ส่งซ่อม">ส่งซ่อม</option>
                                     <option value="ชำรุด">ชำรุด</option>
                                     <option value="ยกเลิกการใช้งาน">ยกเลิกการใช้งาน</option>
                                 </select>

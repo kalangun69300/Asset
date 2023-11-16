@@ -37,13 +37,13 @@
               </div>
               <div class="row mt-3">
                 <div class="col-md-6">
-                  <h4>ผลการตรวจทรัพย์สิน</h4>
+                  <h4 class="text-center">ผลการตรวจทรัพย์สิน</h4>
                   <div class="chart">
                     <canvas id="barChart" style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%;"></canvas>
                   </div>
                 </div>
                 <div class="col-md-6">
-                  <h4>ประเภททรัพย์สิน</h4>
+                  <h4 class="text-center">ประเภททรัพย์สิน</h4>
                   <div class="chart">
                     <canvas id="barChart1" style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%;"></canvas>
                   </div>
@@ -52,7 +52,7 @@
               <hr>
               <div class="row">
                 <div class="col-md-12">
-                  <h4>สถานะทรัพย์สิน</h4>
+                  <h4 class="text-center">สถานะทรัพย์สิน</h4>
                   <canvas id="pieChart" style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%;"></canvas>
                 </div>
               </div>
@@ -86,7 +86,7 @@
         //-------------
 
         var pieData = {
-          labels: ['ว่าง', 'ไม่ว่าง', 'รอดำเนินการ', 'ชำรุด', 'ยกเลิกการใช้งาน'],
+          labels: ['ว่าง', 'ไม่ว่าง', 'ส่งซ่อม', 'ชำรุด', 'ยกเลิกการใช้งาน'],
           datasets: [
             {
               data: [0,0,0,0,0],

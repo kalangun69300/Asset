@@ -120,7 +120,7 @@
           function getData(){
             let searchParams = new URLSearchParams(window.location.search)
             let path_url = window.location.pathname
-            let page = searchParams.get('page')
+            let page = 1
             let page_size = select_page_size.val()
             let asset_type = select_asset_type.val()
             let search = input_search.val()

@@ -135,11 +135,11 @@
                     <div class="row mb-4">
                     <div class="col-md-6">
                             <div class="form-group">
-                                <label for="asset_status">สถานะ</label>                               
+                                <label for="asset_status">สถานะ</label>
                                     <select class="form-control" name="asset_status">
                                         <option value="ว่าง" @if($assets->asset_status == 'ว่าง') selected @endif>ว่าง</option>
                                         <option value="ไม่ว่าง" @if($assets->asset_status == 'ไม่ว่าง') selected @endif>ไม่ว่าง</option>
-                                        <option value="รอดำเนินการ" @if($assets->asset_status == 'รอดำเนินการ') selected @endif>รอดำเนินการ</option>
+                                        <option value="ส่งซ่อม" @if($assets->asset_status == 'ส่งซ่อม') selected @endif>ส่งซ่อม</option>
                                         <option value="ชำรุด" @if($assets->asset_status == 'ชำรุด') selected @endif>ชำรุด</option>
                                         <option value="ยกเลิกการใช้งาน" @if($assets->asset_status == 'ยกเลิกการใช้งาน') selected @endif>ยกเลิกการใช้งาน</option>
                                     </select>
