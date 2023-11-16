@@ -29,8 +29,8 @@ class ResetApproveAssets extends Command
     {
       $today = date('Y-m-d');
       Log::info('Job reset Approve assets is running at '.$today);
-      $count = AssetExamine::where('created_at', '<', $today)
-                ->where('deleted_at', '=', 0)
+      $count = AssetExamine::where('deleted_at', '=', 0)
+                ->where('created_at', '<', $today)
                 ->update(['deleted_at' => 1]);
       Log::info('Job reset Approve assets is end updated '.$count.' records');
     }
