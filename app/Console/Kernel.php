@@ -16,8 +16,7 @@ class Kernel extends ConsoleKernel
        * [ * * * * * ]
        * [ min hour date month day]
        */
-      $schedule->command('cron:reset-approve-assets')->cron('1 * * * *');
-      // $schedule->command('cron:reset-approve-assets')->cron('* * 1 2 *');
+      $schedule->command('cron:reset-approve-assets')->cron('* * 1 2 *');
     }
 
     /**
