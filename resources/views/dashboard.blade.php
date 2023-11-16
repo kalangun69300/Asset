@@ -19,7 +19,7 @@
                 </div>
                 <div class="col-12">
                   <select class="form-select" id="select_month">
-                    <option value="">เลือกเดือน</option>
+                    <option value="">ทั้งหมด</option>
                     <option value="01" @if(date('n') === '01') selected @endif>มกราคม</option>
                     <option value="02" @if(date('n') === '02') selected @endif>กุมภาพันธ์</option>
                     <option value="03" @if(date('n') === '03') selected @endif>มีนาคม</option>
