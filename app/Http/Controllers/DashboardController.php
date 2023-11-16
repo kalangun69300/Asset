@@ -35,7 +35,7 @@ class DashboardController extends Controller
   public function getPieData($date){
     $c1 = DB::table('assets')->select(DB::raw('count(*) as total'))->where('asset_status', 'ว่าง')->where(DB::raw("(DATE_FORMAT(created_at,'%Y-%m'))"), "=", $date)->get();
     $c2 = DB::table('assets')->select(DB::raw('count(*) as total'))->where('asset_status', 'ไม่ว่าง')->where(DB::raw("(DATE_FORMAT(created_at,'%Y-%m'))"), "=", $date)->get();
-    $c3 = DB::table('assets')->select(DB::raw('count(*) as total'))->where('asset_status', 'รอดำเนินการ')->where(DB::raw("(DATE_FORMAT(created_at,'%Y-%m'))"), "=", $date)->get();
+    $c3 = DB::table('assets')->select(DB::raw('count(*) as total'))->where('asset_status', 'ส่งซ่อม')->where(DB::raw("(DATE_FORMAT(created_at,'%Y-%m'))"), "=", $date)->get();
     $c4 = DB::table('assets')->select(DB::raw('count(*) as total'))->where('asset_status', 'ชำรุด')->where(DB::raw("(DATE_FORMAT(created_at,'%Y-%m'))"), "=", $date)->get();
     $c5 = DB::table('assets')->select(DB::raw('count(*) as total'))->where('asset_status', 'ยกเลิกการใช้งาน')->where(DB::raw("(DATE_FORMAT(created_at,'%Y-%m'))"), "=", $date)->get();
 
