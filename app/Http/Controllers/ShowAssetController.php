@@ -23,7 +23,10 @@ class ShowAssetController extends Controller
       }
 
       if($search){
-        $query = $query->where('asset_name', 'LIKE', '%'.$search.'%');
+        $query = $query->where('asset_name', 'LIKE', '%'.$search.'%')
+                    ->orWhere('asset_code', 'LIKE', '%'.$search.'%')
+                    ->orWhere('asset_brand', 'LIKE', '%'.$search.'%')
+                    ->orWhere('asset_status', 'LIKE', '%'.$search.'%');
       }
 
       $assets = $query->paginate($page_size)->withQueryString();
